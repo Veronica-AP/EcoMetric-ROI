@@ -519,7 +519,7 @@ with tab5:
         <div class="explain-box">
             <div class="explain-title">🔬 1. Fundamento Financiero: Metodología de Flujos de Caja Descontados (DCF)</div>
             <p>Las proyecciones financieras de esta plataforma aplican el modelo cuantitativo de <b>Flujos de Caja Descontados (Discounted Cash Flow - DCF)</b>, pilar fundamental de las finanzas corporativas globales normado por las <b>NIIF / IFRS (Normas Internacionales de Información Financiera - NIC 36)</b>.</p>
-            <p>El algoritmo descuenta matemáticamente cada flujo futuro aplicando la tasa de actualización $WACC$ mediante la fórmula estandarizada:</p>
+            <p>El algoritmo descuenta matemáticamente cada flujo futuro aplicando la tasa de actualización WACC mediante la fórmula estandarizada:</p>
             <p style="font-family: monospace; color: #38bdf8; font-size: 1.1rem; font-weight: bold;">VPN = ∑ [ Flujo_t / (1 + WACC)^t ] - CAPEX</p>
         </div>
 
