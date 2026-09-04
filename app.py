@@ -11,27 +11,34 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Estilos CSS de alto contraste y tipografía 100% legible (Sin letras grises)
+# Estilos CSS de Máximo Contraste (Texto 100% Blanco y Azul Neón)
 st.markdown(
     """
     <style>
+    /* Fondo principal de la App */
     .stApp {
         background-color: #0b132a;
         color: #ffffff !important;
     }
     
+    /* Barra Lateral */
     [data-testid="stSidebar"] {
         background-color: #111c3a;
         border-right: 2px solid #1e2d5a;
     }
     
-    /* Títulos y textos del sidebar */
-    [data-testid="stSidebar"] label, [data-testid="stSidebar"] p, [data-testid="stSidebar"] span {
+    /* Textos, labels y desplegables en el Sidebar */
+    [data-testid="stSidebar"] label, 
+    [data-testid="stSidebar"] p, 
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3 {
         color: #ffffff !important;
-        font-weight: 600;
+        font-weight: 700 !important;
     }
-    
-    /* Encabezado Corporativo */
+
+    /* Encabezado Principal */
     .corp-header {
         background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         border-left: 6px solid #10b981;
@@ -83,7 +90,7 @@ st.markdown(
         line-height: 1.4;
     }
 
-    /* Cajas explicativas */
+    /* Cajas Explicativas Generales */
     .explain-box {
         background-color: #101935;
         border: 2px solid #1e2e5c;
@@ -99,26 +106,33 @@ st.markdown(
         font-size: 1.15rem;
         margin-bottom: 10px;
     }
-    .explain-box p, .explain-box li {
+    .explain-box p, .explain-box li, .explain-box td, .explain-box th {
         color: #ffffff !important;
         font-size: 0.98rem;
         line-height: 1.6;
     }
 
-    /* Tablas y pestañas */
-    div[data-baseweb="tab"] {
+    /* Títulos de Pestañas y Tablas */
+    div[data-baseweb="tab"] p {
         color: #ffffff !important;
+        font-size: 1.05rem !important;
+        font-weight: 700 !important;
     }
-    button[aria-selected="true"] {
+    button[aria-selected="true"] p {
         color: #38bdf8 !important;
-        border-bottom-color: #38bdf8 !important;
+    }
+    
+    /* Tablas de Streamlit en blanco */
+    [data-testid="stTable"] td, [data-testid="stTable"] th {
+        color: #ffffff !important;
+        background-color: #101935 !important;
     }
     </style>
 """,
     unsafe_allow_html=True,
 )
 
-# 2. Barra Lateral: Nombre del Proyecto y Divisas Latinoamericanas
+# 2. Barra Lateral: Lista Extensa de Monedas Latinoamericanas
 st.sidebar.markdown(
     """
     <div style="text-align: center; padding: 10px 0;">
@@ -132,7 +146,6 @@ st.sidebar.markdown("---")
 
 st.sidebar.subheader("⚙️ Configuración del Modelo")
 
-# Monedas de América Latina
 divisas_latam = [
     "COP (Peso Colombiano)",
     "USD (Dólar Estadounidense)",
@@ -237,7 +250,6 @@ for t, f in enumerate(flujos_caja):
 
 co2_evitado_anual = mwh_ahorrados * factor_emision
 co2_evitado_total = co2_evitado_anual * horizonte_anios
-arboles_equivalentes = int(co2_evitado_total * 6)
 
 # 4. Encabezado de la Aplicación
 st.markdown(
@@ -263,7 +275,10 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs(
 
 # --- TAB 1: DICTAMEN EJECUTIVO ---
 with tab1:
-    st.subheader("Indicadores Clave de Rentabilidad del Proyecto")
+    st.markdown(
+        "<h3 style='color: #ffffff;'>Indicadores Clave de Rentabilidad del Proyecto</h3>",
+        unsafe_allow_html=True,
+    )
 
     col1, col2, col3, col4 = st.columns(4)
 
@@ -317,8 +332,10 @@ with tab1:
         )
 
     st.markdown("<br>", unsafe_allow_html=True)
-
-    st.subheader("Curva de Recuperación de Capital")
+    st.markdown(
+        "<h3 style='color: #ffffff;'>Curva de Recuperación de Capital</h3>",
+        unsafe_allow_html=True,
+    )
 
     fig = go.Figure()
 
@@ -379,9 +396,13 @@ with tab1:
 
 # --- TAB 2: EXPLICACIÓN DE LA BARRA LATERAL ---
 with tab2:
-    st.subheader("Explicación de las Variables del Panel Izquierdo")
-    st.write(
-        "A continuación se detalla el significado contable y la fuente técnica de cada parámetro utilizado en la barra lateral:"
+    st.markdown(
+        "<h3 style='color: #ffffff;'>Explicación de las Variables del Panel Izquierdo</h3>",
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        "<p style='color: #ffffff; font-size: 1rem;'>A continuación se detalla el significado contable y la fuente técnica de cada parámetro utilizado en el menú izquierdo:</p>",
+        unsafe_allow_html=True,
     )
 
     st.markdown(
@@ -412,8 +433,8 @@ with tab2:
 
         <div class="explain-box">
             <div class="explain-title">🔹 5. Energía Limpia Generada (MWh/año) y Factor de Emisión (tCO2e/MWh)</div>
-            <p><b>¿De dónde sale?</b> La energía producida es estimada por el software de ingeniería (ej. PVSyst). El factor de emisión es tomado de las publicaciones oficiales del Ministerio de Minas y Energía o del sistema eléctrico nacional.</p>
-            <p><b>¿Qué significa?</b> Mide cuántos Megavatios-hora limpios se generan y cuántas toneladas de Dióxido de Carbono equivalente ($\text{CO}_2\text{e}$) se dejan de emitir a la atmósfera.</p>
+            <p><b>¿De dónde sale?</b> La energía producida es estimada por el software de ingeniería (ej. PVSyst). El factor de emisión es tomado de las publicaciones oficiales del Ministerio de Minas y Energía o del sistema eléctrico nacional (XM/UPME).</p>
+            <p><b>¿Qué significa?</b> Mide cuántos Megavatios-hora limpios se generan y cuántas toneladas de Dióxido de Carbono equivalente (tCO2e) se dejan de emitir a la atmósfera.</p>
         </div>
     """,
         unsafe_allow_html=True,
@@ -421,7 +442,10 @@ with tab2:
 
 # --- TAB 3: ESTADO DE FLUJOS ---
 with tab3:
-    st.subheader("Estado Proyectado de Flujos de Caja")
+    st.markdown(
+        "<h3 style='color: #ffffff;'>Estado Proyectado de Flujos de Caja</h3>",
+        unsafe_allow_html=True,
+    )
 
     datos_tabla = []
     for t in range(horizonte_anios + 1):
@@ -446,7 +470,14 @@ with tab3:
 
 # --- TAB 4: SENSIBILIDAD ---
 with tab4:
-    st.subheader("Análisis de Sensibilidad de Escenarios")
+    st.markdown(
+        "<h3 style='color: #ffffff;'>Análisis de Sensibilidad y Escenarios de Riesgo</h3>",
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        "<p style='color: #ffffff; font-size: 1rem;'>Esta tabla evalúa cómo cambia el Valor Presente Neto (VPN) si los ahorros reales aumentan o disminuyen respecto al escenario base proyectado:</p>",
+        unsafe_allow_html=True,
+    )
 
     variaciones = [-0.20, -0.10, 0.0, 0.10, 0.20]
     matriz_escenarios = []
@@ -467,7 +498,9 @@ with tab4:
                 "Escenario de Mercado": nombre_esc,
                 f"Flujo Neto Anual ({divisa})": f"{ahorro_mod:,.0f}",
                 f"VPN Resultado ({divisa})": f"{vpn_mod:,.0f}",
-                "Viabilidad": "✅ VIABLE" if vpn_mod >= 0 else "❌ NO VIABLE",
+                "Estado de Viabilidad": "✅ VIABLE"
+                if vpn_mod >= 0
+                else "❌ NO VIABLE",
             }
         )
 
@@ -476,25 +509,28 @@ with tab4:
 
 # --- TAB 5: BASES CIENTÍFICAS Y METODOLOGÍA ---
 with tab5:
-    st.subheader("Rigor Científico, Normativa y Metodología Internacional")
+    st.markdown(
+        "<h3 style='color: #ffffff;'>Rigor Científico, Normativa y Metodología Internacional</h3>",
+        unsafe_allow_html=True,
+    )
 
     st.markdown(
         """
         <div class="explain-box">
             <div class="explain-title">🔬 1. Fundamento Financiero: Metodología de Flujos de Caja Descontados (DCF)</div>
             <p>Las proyecciones financieras de esta plataforma aplican el modelo cuantitativo de <b>Flujos de Caja Descontados (Discounted Cash Flow - DCF)</b>, pilar fundamental de las finanzas corporativas globales normado por las <b>NIIF / IFRS (Normas Internacionales de Información Financiera - NIC 36)</b>.</p>
-            <p>El algoritmo descuenta matemáticamente cada flujo futuro aplicando la tasa de actualización $WACC$ mediante la fórmula matemática estandarizada:</p>
+            <p>El algoritmo descuenta matemáticamente cada flujo futuro aplicando la tasa de actualización $WACC$ mediante la fórmula estandarizada:</p>
             <p style="font-family: monospace; color: #38bdf8; font-size: 1.1rem; font-weight: bold;">VPN = ∑ [ Flujo_t / (1 + WACC)^t ] - CAPEX</p>
         </div>
 
         <div class="explain-box">
             <div class="explain-title">🌱 2. Fundamento Ambiental: Protocolo GHG e ISO 14064</div>
-            <p>La cuantificación del impacto ecológico (toneladas de $\text{CO}_2$ evadidas) aplica estrictamente la metodología del <b>GHG Protocol (Greenhouse Gas Protocol)</b> desarrollado por el WRI (World Resources Institute) y el WBCSD, así como la norma <b>ISO 14064</b> para la cuantificación y reporte de emisiones de gases de efecto invernadero.</p>
+            <p>La cuantificación del impacto ecológico (toneladas de CO2 evadidas) aplica estrictamente la metodología del <b>GHG Protocol (Greenhouse Gas Protocol)</b> desarrollado por el WRI (World Resources Institute) y el WBCSD, así como la norma <b>ISO 14064</b> para la cuantificación y reporte de emisiones de gases de efecto invernadero.</p>
         </div>
 
         <div class="explain-box">
             <div class="explain-title">📊 3. Validez de los Factores de Conversión</div>
-            <p>El factor de emisión por Megavatio-hora (MWh) utiliza los datos emitidos por el <b>IPCC (Panel Intergubernamental sobre el Cambio Climático)</b> y los entes reguladores de la matriz energética en América Latina, garantizando que los indicadores de absorción de carbono y equivalencia en árboles sean científicamente verificables para auditorías ESG.</p>
+            <p>El factor de emisión por Megavatio-hora (MWh) utiliza los datos emitidos por el <b>IPCC (Panel Intergubernamental sobre el Cambio Climático)</b> y los entes reguladores de la matriz energética en América Latina (ej. XM / UPME en Colombia), garantizando que los indicadores de descarbonización sean técnicamente verificables para auditorías ESG.</p>
         </div>
     """,
         unsafe_allow_html=True,
