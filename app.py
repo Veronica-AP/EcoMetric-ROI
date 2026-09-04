@@ -6,18 +6,18 @@ import streamlit as st
 # 1. Configuración de la página
 st.set_page_config(
     page_title="EcoMetric & ROI | Evaluación de Proyectos Sostenibles",
-    page_icon="🏛️",
+    page_icon="🍃",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# Estilos CSS de alto contraste y tipografía 100% legible
+# Estilos CSS de alto contraste y tipografía 100% legible (Sin letras grises)
 st.markdown(
     """
     <style>
     .stApp {
         background-color: #0b132a;
-        color: #ffffff;
+        color: #ffffff !important;
     }
     
     [data-testid="stSidebar"] {
@@ -50,7 +50,7 @@ st.markdown(
         color: #38bdf8 !important;
         font-size: 1.1rem;
         margin-top: 6px;
-        font-weight: 500;
+        font-weight: 600;
     }
     
     /* Tarjetas de Métricas */
@@ -64,7 +64,7 @@ st.markdown(
     }
     .metric-title {
         color: #38bdf8 !important;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.08em;
@@ -78,7 +78,7 @@ st.markdown(
     }
     .metric-description {
         color: #ffffff !important;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         margin-top: 10px;
         line-height: 1.4;
     }
@@ -96,25 +96,34 @@ st.markdown(
     .explain-title {
         color: #38bdf8 !important;
         font-weight: 800;
-        font-size: 1.1rem;
+        font-size: 1.15rem;
         margin-bottom: 10px;
     }
     .explain-box p, .explain-box li {
         color: #ffffff !important;
-        font-size: 0.95rem;
-        line-height: 1.5;
+        font-size: 0.98rem;
+        line-height: 1.6;
+    }
+
+    /* Tablas y pestañas */
+    div[data-baseweb="tab"] {
+        color: #ffffff !important;
+    }
+    button[aria-selected="true"] {
+        color: #38bdf8 !important;
+        border-bottom-color: #38bdf8 !important;
     }
     </style>
 """,
     unsafe_allow_html=True,
 )
 
-# 2. Barra Lateral: Lista Extensa de Monedas Latinoamericanas
+# 2. Barra Lateral: Nombre del Proyecto y Divisas Latinoamericanas
 st.sidebar.markdown(
     """
     <div style="text-align: center; padding: 10px 0;">
-        <h2 style="color: #ffffff; margin:0; font-weight: 800;">🏛️ ECOFIN PRO</h2>
-        <p style="color: #38bdf8; font-size: 0.85rem; margin:0;">CORPORATE SUSTAINABILITY MODEL</p>
+        <h2 style="color: #ffffff; margin:0; font-weight: 800;">🍃 EcoMetric & ROI</h2>
+        <p style="color: #38bdf8; font-size: 0.85rem; margin:0;">EVALUACIÓN DE PROYECTOS SOSTENIBLES</p>
     </div>
 """,
     unsafe_allow_html=True,
@@ -123,7 +132,7 @@ st.sidebar.markdown("---")
 
 st.sidebar.subheader("⚙️ Configuración del Modelo")
 
-# Divisas de Latinoamérica
+# Monedas de América Latina
 divisas_latam = [
     "COP (Peso Colombiano)",
     "USD (Dólar Estadounidense)",
@@ -202,7 +211,7 @@ factor_emision = st.sidebar.number_input(
     format="%.3f",
 )
 
-# 3. Lógica Financiera Interna
+# 3. Lógica Financiera
 ahorro_neto_anual = ahorro_anual_base - opex_anual
 anios = list(range(0, horizonte_anios + 1))
 flujos_caja = [-capex] + [ahorro_neto_anual] * horizonte_anios
@@ -230,25 +239,25 @@ co2_evitado_anual = mwh_ahorrados * factor_emision
 co2_evitado_total = co2_evitado_anual * horizonte_anios
 arboles_equivalentes = int(co2_evitado_total * 6)
 
-# 4. Encabezado Corporativo
+# 4. Encabezado de la Aplicación
 st.markdown(
     f"""
     <div class="corp-header">
-        <div class="corp-title">Plataforma de Evaluación de Proyectos Sostenibles & ROI</div>
+        <div class="corp-title">EcoMetric & ROI — Plataforma de Evaluación de Proyectos Sostenibles</div>
         <div class="corp-subtitle">Modelación Financiera Multidivisa, Análisis de Riesgos y Descarbonización ESG</div>
     </div>
 """,
     unsafe_allow_html=True,
 )
 
-# 5. Estructura Principal en Pestañas
+# 5. Pestañas Principales
 tab1, tab2, tab3, tab4, tab5 = st.tabs(
     [
         "📊 Dictamen Ejecutivo & Retorno",
-        "⚙️ Guía de Parámetros (Panel Izquierdo)",
+        "⚙️ Guía del Panel Izquierdo",
         "📋 Estado de Flujos Proyectados",
-        "📈 Sensibilidad & Escenarios de Riesgo",
-        "🔬 Bases Científicas & Metodología",
+        "📈 Sensibilidad & Escenarios",
+        "🔬 Bases Científicas y Metodología",
     ]
 )
 
@@ -264,7 +273,7 @@ with tab1:
             <div class="metric-card">
                 <div class="metric-title">Retorno (Payback)</div>
                 <div class="metric-value">{payback_year}</div>
-                <div class="metric-description">Tiempo exacto para recuperar el 100% del capital inicial (CAPEX).</div>
+                <div class="metric-description">Tiempo exacto para recuperar el 100% del capital inicial invertido (CAPEX).</div>
             </div>
         """,
             unsafe_allow_html=True,
@@ -277,7 +286,7 @@ with tab1:
             <div class="metric-card">
                 <div class="metric-title">Valor Presente Neto (VPN)</div>
                 <div class="metric-value" style="color: {color_vpn};">{divisa} {vpn:,.0f}</div>
-                <div class="metric-description">Riqueza neta adicional creada hoy a la tasa de descuento exigida.</div>
+                <div class="metric-description">Riqueza neta adicional generada hoy a la tasa de descuento exigida.</div>
             </div>
         """,
             unsafe_allow_html=True,
@@ -370,9 +379,9 @@ with tab1:
 
 # --- TAB 2: EXPLICACIÓN DE LA BARRA LATERAL ---
 with tab2:
-    st.subheader("Explicación de las Variables del Panel Lateral")
+    st.subheader("Explicación de las Variables del Panel Izquierdo")
     st.write(
-        "A continuación se detalla el significado contable y la fuente técnica de cada parámetro utilizado en el menú izquierdo:"
+        "A continuación se detalla el significado contable y la fuente técnica de cada parámetro utilizado en la barra lateral:"
     )
 
     st.markdown(
@@ -380,24 +389,24 @@ with tab2:
         <div class="explain-box">
             <div class="explain-title">🔹 1. Inversión Inicial (CAPEX - Capital Expenditures)</div>
             <p><b>¿De dónde sale?</b> Se obtiene de las cotizaciones comerciales de los proveedores de tecnología (paneles solares, inversores, maquinaria industrial eficiente) e incluye compra, transporte, licencias e instalación.</p>
-            <p><b>¿Qué significa?</b> Es el dinero inicial que debe desembolsarse en el "Año 0" para poner en marcha la infraestructura.</p>
+            <p><b>¿Qué significa?</b> Es el desembolso de capital que debe realizarse en el "Año 0" para poner en marcha la infraestructura.</p>
         </div>
 
         <div class="explain-box">
             <div class="explain-title">🔹 2. Ahorro Energético Anual (Ahorro Bruto)</div>
-            <p><b>¿De dónde sale?</b> Del análisis de las facturas históricas de energía eléctrica o combustibles de la empresa, multiplicado por la eficiencia proyectada de la nueva tecnología.</p>
-            <p><b>¿Qué significa?</b> Representa la cantidad de dinero que la empresa deja de pagar mes a mes a las comercializadoras de servicios públicos.</p>
+            <p><b>¿De dónde sale?</b> Del análisis de las facturas históricas de energía eléctrica o combustibles de la empresa, multiplicado por el porcentaje de eficiencia proyectado.</p>
+            <p><b>¿Qué significa?</b> Es la cantidad de dinero que la organización deja de pagar mes a mes a las comercializadoras de servicios públicos.</p>
         </div>
 
         <div class="explain-box">
             <div class="explain-title">🔹 3. Costos Operativos y Mantenimiento (OPEX - Operational Expenditures)</div>
             <p><b>¿De dónde sale?</b> De los contratos de mantenimiento preventivo, limpieza técnica, seguros contra todo riesgo y monitoreo del sistema.</p>
-            <p><b>¿Qué significa?</b> Es el gasto anual necesario para mantener el proyecto operando en óptimas condiciones durante su vida útil.</p>
+            <p><b>¿Qué significa?</b> Es el gasto anual recurrente necesario para mantener la tecnología operando en óptimas condiciones durante su vida útil.</p>
         </div>
 
         <div class="explain-box">
             <div class="explain-title">🔹 4. Tasa de Descuento / WACC (Weighted Average Cost of Capital)</div>
-            <p><b>¿De dónde sale?</b> Es el costo promedio ponderado de capital exigido por la junta directiva o entidades financieras para aprobar un proyecto.</p>
+            <p><b>¿De dónde sale?</b> Es el costo promedio ponderado de capital exigido por la junta directiva o las entidades financieras para aprobar un proyecto.</p>
             <p><b>¿Qué significa?</b> Representa la rentabilidad mínima exigida a la inversión para cubrir el costo del dinero en el tiempo y la inflación.</p>
         </div>
 
@@ -473,7 +482,7 @@ with tab5:
         """
         <div class="explain-box">
             <div class="explain-title">🔬 1. Fundamento Financiero: Metodología de Flujos de Caja Descontados (DCF)</div>
-            <p>Las proyecciones financieras de esta plataforma no son estimaciones arbitrarias; aplican el modelo cuantitativo de <b>Flujos de Caja Descontados (Discounted Cash Flow - DCF)</b>, pilar fundamental de las finanzas corporativas globales normado por las <b>NIIF / IFRS (Normas Internacionales de Información Financiera - NIC 36)</b>.</p>
+            <p>Las proyecciones financieras de esta plataforma aplican el modelo cuantitativo de <b>Flujos de Caja Descontados (Discounted Cash Flow - DCF)</b>, pilar fundamental de las finanzas corporativas globales normado por las <b>NIIF / IFRS (Normas Internacionales de Información Financiera - NIC 36)</b>.</p>
             <p>El algoritmo descuenta matemáticamente cada flujo futuro aplicando la tasa de actualización $WACC$ mediante la fórmula matemática estandarizada:</p>
             <p style="font-family: monospace; color: #38bdf8; font-size: 1.1rem; font-weight: bold;">VPN = ∑ [ Flujo_t / (1 + WACC)^t ] - CAPEX</p>
         </div>
